@@ -8,6 +8,7 @@ import {
   TodoPage,
 } from '@pages/index';
 import ROUTER_PATH from '@constants/routerPath';
+import todoLoader from '@pages/TodoPage/todoLoader';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       {
         path: ROUTER_PATH.TODO,
         element: <TodoPage />,
+        loader: todoLoader,
         errorElement: <ErrorPage />,
       },
     ],
