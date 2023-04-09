@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { postSignUp } from '@api/auth';
 import ROUTER_PATH from '@constants/routerPath';
 import useFormValidation from '@hooks/useFormValidation';
 
@@ -13,16 +14,28 @@ const SignUpPage = () => {
     onChangePasswordInputValue,
   } = useFormValidation();
 
+  const navigate = useNavigate();
+
+  const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = {
+      email: emailInputValue,
+      password: passwordInputValue,
+    };
+    await postSignUp(formData);
+    navigate(ROUTER_PATH.SIGNIN);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-[100%] gap-6">
-      <h1 className="text-3xl font-bold ">회원가입</h1>
-      <form action="" className="flex flex-col w-[60%] gap-6">
-        <label>
+      <h1 className="text-3xl font-bold">회원가입</h1>
+      <form onSubmit={formSubmitHandler} className="flex flex-col gap-6">
+        <label className="text-lg">
           이메일
           <input
             type="text"
             data-testid="email-input"
-            placeholder="test@test.com"
+            placeholder="test1234@test.net"
             ref={emailInputRef}
             value={emailInputValue}
             onChange={onChangeEmailInputValue}
@@ -43,7 +56,6 @@ const SignUpPage = () => {
         </label>
         <button
           type="submit"
-          value="Submit"
           data-testid="signup-button"
           disabled={isDisabledFormButton}
           className="px-8 py-4 text-white bg-blue-600 w-[100%] min-w-[320px] rounded-xl hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500"
