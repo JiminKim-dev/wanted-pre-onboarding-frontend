@@ -10,7 +10,8 @@
       "@pages": ["./pages/index.ts"],
       "@hooks/*": ["./hooks/*"],
       "@router/*": ["./router/*"],
-      "@router": ["./router/index.tsx"]
+      "@router": ["./router/index.tsx"],
+      "@customTypes/*": ["./types/*"]
     }
   }
 }
