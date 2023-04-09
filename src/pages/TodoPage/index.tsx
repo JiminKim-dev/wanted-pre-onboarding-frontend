@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
+import { createTodo } from '@api/todo';
 import TodoItem from '@components/TodoItem';
 import { TodoItemTypes } from '@customTypes/todo';
 
@@ -9,10 +10,29 @@ const TodoPage = () => {
   const [items, setItems] = useState<TodoItemTypes[]>(todoListData);
 
   const newTodoInputRef = useRef<HTMLInputElement>(null);
+  const createTodoFormHandler = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    if (!newTodoInputRef.current) return;
+
+    const newTodo = newTodoInputRef.current.value;
+
+    if (!newTodo) return;
+    const response = await createTodo(newTodo);
+
+    setItems([...items, response]);
+    newTodoInputRef.current.value = '';
+  };
+
+  useEffect(() => {}, [items]);
 
   return (
-    <div className="flex flex-col items-center w-[100%] h-[100%] gap-6">
-      <form className="w-[100%] flex items-center justify-center">
+    <div className="flex flex-col items-center w-[100%] h-[100%] gap-6 overflow-y-auto">
+      <form
+        onSubmit={createTodoFormHandler}
+        className="w-[100%] flex items-center justify-center"
+      >
         <input
           ref={newTodoInputRef}
           data-testid="new-todo-input"
@@ -27,7 +47,7 @@ const TodoPage = () => {
           추가
         </button>
       </form>
-      <ul className="w-[100%] flex items-center justify-center flex-col gap-2 overflow-scroll">
+      <ul className="w-[100%] flex items-center justify-center flex-col gap-2">
         {items.length ? (
           items.map((item) => <TodoItem {...item} />)
         ) : (

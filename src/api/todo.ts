@@ -7,6 +7,22 @@ interface ErrorMessage {
   message: string;
 }
 
+export const createTodo = async (todo: string): Promise<TodoItemTypes> => {
+  try {
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    const response = await AxiosInstance.post(API_PATH.TODO, { todo }, config);
+
+    return response.data;
+  } catch (catchError) {
+    const error = catchError as AxiosError<ErrorMessage>;
+    alert(error.response?.data.message);
+    throw error;
+  }
+};
+
 export const getTodos = async (): Promise<AxiosPromise<TodoItemTypes[]>> => {
   try {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -22,3 +38,5 @@ export const getTodos = async (): Promise<AxiosPromise<TodoItemTypes[]>> => {
     throw error;
   }
 };
+
+// export const updateTodo =
