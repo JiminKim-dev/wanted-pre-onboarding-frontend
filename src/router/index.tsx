@@ -6,9 +6,10 @@ import {
   SignInPage,
   SignUpPage,
   TodoPage,
+  authLoader,
+  todoLoader,
 } from '@pages/index';
 import ROUTER_PATH from '@constants/routerPath';
-import todoLoader from '@pages/TodoPage/todoLoader';
 
 const router = createBrowserRouter([
   {
@@ -18,15 +19,18 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <RootPage />,
+        loader: authLoader,
       },
       {
         path: ROUTER_PATH.SIGNIN,
         element: <SignInPage />,
+        loader: authLoader,
         errorElement: <ErrorPage />,
       },
       {
         path: ROUTER_PATH.SIGNUP,
         element: <SignUpPage />,
+        loader: authLoader,
         errorElement: <ErrorPage />,
       },
       {

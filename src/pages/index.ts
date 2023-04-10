@@ -5,4 +5,16 @@ import SignInPage from '@pages/SignInPage';
 import SignUpPage from '@pages/SignUpPage';
 import TodoPage from '@pages/TodoPage';
 
-export { Layout, ErrorPage, RootPage, SignInPage, SignUpPage, TodoPage };
+import authLoader from '@pages/RootPage/authLoader';
+import todoLoader from '@pages/TodoPage/todoLoader';
+
+export {
+  Layout,
+  ErrorPage,
+  RootPage,
+  SignInPage,
+  SignUpPage,
+  TodoPage,
+  authLoader,
+  todoLoader,
+};
