@@ -1,5 +1,5 @@
 import { API_PATH, LOCAL_STORAGE_KEY } from '@constants/api';
-import { TodoItemTypes } from '@customTypes/todo';
+import { TodoItemTypes, UpdateTodoTypes } from '@customTypes/todo';
 import { AxiosError, AxiosPromise } from 'axios';
 import { AxiosInstance } from '.';
 
@@ -43,6 +43,27 @@ export const deleteTodo = async (todoId: number) => {
   try {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY);
     const response = await AxiosInstance.delete(`${API_PATH.TODO}/${todoId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (catchError) {
+    const error = catchError as AxiosError<ErrorMessage>;
+    alert(error.response?.data.message);
+    throw error;
+  }
+};
+
+export const updateTodo = async ({
+  id,
+  isCompleted,
+  todo,
+}: UpdateTodoTypes) => {
+  try {
+    const body = { todo, isCompleted };
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const response = await AxiosInstance.put(`${API_PATH.TODO}/${id}`, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

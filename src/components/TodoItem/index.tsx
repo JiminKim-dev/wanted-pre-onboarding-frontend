@@ -1,39 +1,76 @@
 import { useState } from 'react';
-import { TodoItemTypes } from '@customTypes/todo';
+import { TodoItemTypes, UpdateTodoTypes } from '@customTypes/todo';
 
 interface TodoItemProps {
   item: TodoItemTypes;
   deleteTodoHandler: (id: number) => void;
+  updateTodoHandler: (updateInfo: UpdateTodoTypes) => void;
 }
 
-const TodoItem = ({ item, deleteTodoHandler }: TodoItemProps) => {
+const TodoItem = ({
+  item,
+  updateTodoHandler,
+  deleteTodoHandler,
+}: TodoItemProps) => {
   const { id, todo, isCompleted } = item;
-
+  const [todoInputValue, setTodoInputValue] = useState<string>(todo);
   const [isEditTodo, setIsEditTodo] = useState(false);
-  const setIsEditMode = () => setIsEditTodo((state) => !state);
+  const changeEditTodoState = () => setIsEditTodo((state) => !state);
 
   const clickDeleteButtonHandler = () => deleteTodoHandler(id);
+
+  const onClickCheckboxHandler = () => {
+    const updateItem = {
+      id,
+      isCompleted: !isCompleted,
+      todo: todoInputValue,
+    };
+    updateTodoHandler(updateItem);
+  };
+
+  const onChangeInputValueHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => setTodoInputValue(event.target.value);
+
+  const onClickModifyButtonHandler = () => {
+    const updateItem = {
+      id,
+      isCompleted,
+      todo: todoInputValue,
+    };
+    updateTodoHandler(updateItem);
+    changeEditTodoState();
+  };
+
+  const onClickCancleButtonHandler = () => {
+    setTodoInputValue(todo);
+    changeEditTodoState();
+  };
 
   return (
     <li className="list-none w-[100%]">
       <label>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={isCompleted}
+          onChange={onClickCheckboxHandler}
+        />
         {isEditTodo ? (
           <>
             <input
               data-testid="modify-input"
               defaultValue={todo}
-              className="w-[70%] w-min-[200px] mx-2 px-3 py-1 border-solid border-[1px] rounded-md border-slate-400"
+              onChange={onChangeInputValueHandler}
             />
             <button
               data-testid="submit-button"
-              className="px-3 py-1 text-white bg-green-500"
+              onClick={onClickModifyButtonHandler}
             >
               제출
             </button>
             <button
               data-testid="cancel-button"
-              onClick={setIsEditMode}
+              onClick={onClickCancleButtonHandler}
               className="px-3 py-1 text-white bg-slate-600"
             >
               취소
@@ -42,11 +79,11 @@ const TodoItem = ({ item, deleteTodoHandler }: TodoItemProps) => {
         ) : (
           <>
             <span className="inline-block mx-2  px-3 py-1 w-[70%] w-min-[200px]">
-              {todo}
+              {todoInputValue}
             </span>
             <button
               data-testid="modify-button"
-              onClick={setIsEditMode}
+              onClick={changeEditTodoState}
               className="px-3 py-1 text-white bg-slate-800"
             >
               수정

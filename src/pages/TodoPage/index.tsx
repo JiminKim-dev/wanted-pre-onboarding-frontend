@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
-import { createTodo, deleteTodo } from '@api/todo';
+import { createTodo, deleteTodo, updateTodo } from '@api/todo';
 import TodoItem from '@components/TodoItem';
-import { TodoItemTypes } from '@customTypes/todo';
+import { TodoItemTypes, UpdateTodoTypes } from '@customTypes/todo';
 import { useTodoState } from '@hooks/useTodoState';
 
 const TodoPage = () => {
@@ -29,6 +29,11 @@ const TodoPage = () => {
     const responseNewTodo = await createTodo(newTodo);
     createTodoState(responseNewTodo);
     newTodoInputRef.current.value = '';
+  };
+
+  const updateTodoHandler = async (updateInfo: UpdateTodoTypes) => {
+    const responseUpdateTodo = await updateTodo(updateInfo);
+    updateTodoState(responseUpdateTodo);
   };
 
   const deleteTodoHandler = async (todoId: number) => {
@@ -66,6 +71,7 @@ const TodoPage = () => {
             <TodoItem
               key={item.id}
               item={item}
+              updateTodoHandler={updateTodoHandler}
               deleteTodoHandler={deleteTodoHandler}
             />
           ))

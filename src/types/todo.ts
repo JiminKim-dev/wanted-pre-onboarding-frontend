@@ -4,3 +4,5 @@ export interface TodoItemTypes {
   isCompleted: boolean;
   userId: number;
 }
+
+export type UpdateTodoTypes = Omit<TodoItemTypes, 'userId'>;
