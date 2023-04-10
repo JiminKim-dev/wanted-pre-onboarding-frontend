@@ -46,10 +46,10 @@ const TodoPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-[100%] h-[100%] gap-6 overflow-y-auto">
+    <div className="w-[100%] h-[100%] overflow-y-auto">
       <form
         onSubmit={createTodoFormHandler}
-        className="w-[100%] flex items-center justify-center"
+        className="w-[100%] flex items-center justify-center mb-6"
       >
         <input
           ref={newTodoInputRef}
@@ -65,7 +65,7 @@ const TodoPage = () => {
           추가
         </button>
       </form>
-      <ul className="w-[100%] flex items-center justify-center flex-col gap-2">
+      <ul className="w-[100%] flex flex-col gap-2">
         {todoState.length ? (
           todoState.map((item: TodoItemTypes) => (
             <TodoItem
@@ -76,7 +76,7 @@ const TodoPage = () => {
             />
           ))
         ) : (
-          <div>TodoList가 비어있어요.</div>
+          <div className="flex justify-center">TodoList가 비어있어요.</div>
         )}
       </ul>
     </div>
