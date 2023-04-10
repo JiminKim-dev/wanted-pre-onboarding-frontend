@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
-import { createTodo } from '@api/todo';
+import { createTodo, deleteTodo } from '@api/todo';
 import TodoItem from '@components/TodoItem';
 import { TodoItemTypes } from '@customTypes/todo';
 import { useTodoState } from '@hooks/useTodoState';
@@ -31,6 +31,11 @@ const TodoPage = () => {
     newTodoInputRef.current.value = '';
   };
 
+  const deleteTodoHandler = async (todoId: number) => {
+    await deleteTodo(todoId);
+    deleteTodoState(todoId);
+  };
+
   useEffect(() => {
     getTodosState(todoListData);
   }, []);
@@ -58,7 +63,11 @@ const TodoPage = () => {
       <ul className="w-[100%] flex items-center justify-center flex-col gap-2">
         {todoState.length ? (
           todoState.map((item: TodoItemTypes) => (
-            <TodoItem key={item.id} item={item} />
+            <TodoItem
+              key={item.id}
+              item={item}
+              deleteTodoHandler={deleteTodoHandler}
+            />
           ))
         ) : (
           <div>TodoList가 비어있어요.</div>

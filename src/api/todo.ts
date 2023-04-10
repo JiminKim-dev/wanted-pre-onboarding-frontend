@@ -39,4 +39,18 @@ export const getTodos = async (): Promise<AxiosPromise<TodoItemTypes[]>> => {
   }
 };
 
-// export const updateTodo =
+export const deleteTodo = async (todoId: number) => {
+  try {
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const response = await AxiosInstance.delete(`${API_PATH.TODO}/${todoId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (catchError) {
+    const error = catchError as AxiosError<ErrorMessage>;
+    alert(error.response?.data.message);
+    throw error;
+  }
+};

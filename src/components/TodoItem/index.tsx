@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { TodoItemTypes } from '@customTypes/todo';
 
-const TodoItem = (props: TodoItemTypes) => {
-  const { id, todo, isCompleted, userId } = props;
+interface TodoItemProps {
+  item: TodoItemTypes;
+  deleteTodoHandler: (id: number) => void;
+}
+
+const TodoItem = ({ item, deleteTodoHandler }: TodoItemProps) => {
+  const { id, todo, isCompleted } = item;
 
   const [isEditTodo, setIsEditTodo] = useState(false);
   const setIsEditMode = () => setIsEditTodo((state) => !state);
+
+  const clickDeleteButtonHandler = () => deleteTodoHandler(id);
 
   return (
     <li className="list-none w-[100%]">
@@ -46,6 +53,7 @@ const TodoItem = (props: TodoItemTypes) => {
             </button>
             <button
               data-testid="delete-button"
+              onClick={clickDeleteButtonHandler}
               className="px-3 py-1 text-white bg-red-400"
             >
               삭제
