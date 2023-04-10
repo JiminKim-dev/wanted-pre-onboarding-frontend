@@ -8,21 +8,33 @@ export const useTodoState = () => {
 
   if (!state || !dispatch) throw new Error();
 
-  const getTodosState = useCallback((todos: TodoItemTypes[]): void => {
-    dispatch({ type: 'GET_TODO', payload: todos });
-  }, []);
+  const getTodosState = useCallback(
+    (todos: TodoItemTypes[]): void => {
+      dispatch({ type: 'GET_TODO', payload: todos });
+    },
+    [dispatch]
+  );
 
-  const createTodoState = useCallback((todo: TodoItemTypes) => {
-    dispatch({ type: 'CREATE_TODO', payload: todo });
-  }, []);
+  const createTodoState = useCallback(
+    (todo: TodoItemTypes) => {
+      dispatch({ type: 'CREATE_TODO', payload: todo });
+    },
+    [dispatch]
+  );
 
-  const updateTodoState = useCallback((todo: TodoItemTypes) => {
-    dispatch({ type: 'UPDATE_TODO', payload: todo });
-  }, []);
+  const updateTodoState = useCallback(
+    (todo: TodoItemTypes) => {
+      dispatch({ type: 'UPDATE_TODO', payload: todo });
+    },
+    [dispatch]
+  );
 
-  const deleteTodoState = useCallback((todoId: number) => {
-    dispatch({ type: 'DELETE_TODO', payload: todoId });
-  }, []);
+  const deleteTodoState = useCallback(
+    (todoId: number) => {
+      dispatch({ type: 'DELETE_TODO', payload: todoId });
+    },
+    [dispatch]
+  );
 
   return {
     todoState: state,
