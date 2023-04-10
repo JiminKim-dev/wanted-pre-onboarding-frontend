@@ -1,13 +1,20 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { createTodo } from '@api/todo';
 import TodoItem from '@components/TodoItem';
 import { TodoItemTypes } from '@customTypes/todo';
+import { useTodoState } from '@hooks/useTodoState';
 
 const TodoPage = () => {
   const { data: todoListData } = useLoaderData() as AxiosResponse;
-  const [items, setItems] = useState<TodoItemTypes[]>(todoListData);
+  const {
+    todoState,
+    getTodosState,
+    createTodoState,
+    updateTodoState,
+    deleteTodoState,
+  } = useTodoState();
 
   const newTodoInputRef = useRef<HTMLInputElement>(null);
   const createTodoFormHandler = async (
@@ -19,13 +26,14 @@ const TodoPage = () => {
     const newTodo = newTodoInputRef.current.value;
 
     if (!newTodo) return;
-    const response = await createTodo(newTodo);
-
-    setItems([...items, response]);
+    const responseNewTodo = await createTodo(newTodo);
+    createTodoState(responseNewTodo);
     newTodoInputRef.current.value = '';
   };
 
-  useEffect(() => {}, [items]);
+  useEffect(() => {
+    getTodosState(todoListData);
+  }, []);
 
   return (
     <div className="flex flex-col items-center w-[100%] h-[100%] gap-6 overflow-y-auto">
@@ -48,8 +56,10 @@ const TodoPage = () => {
         </button>
       </form>
       <ul className="w-[100%] flex items-center justify-center flex-col gap-2">
-        {items.length ? (
-          items.map((item) => <TodoItem {...item} />)
+        {todoState.length ? (
+          todoState.map((item: TodoItemTypes) => (
+            <TodoItem key={item.id} item={item} />
+          ))
         ) : (
           <div>TodoList가 비어있어요.</div>
         )}
