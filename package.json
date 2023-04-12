@@ -2,11 +2,13 @@
   "name": "wanted-pre-onboarding-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jiminkim-dev.github.io/wanted-pre-onboarding-frontend/",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -18,6 +20,7 @@
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
     "axios": "^1.3.5",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
