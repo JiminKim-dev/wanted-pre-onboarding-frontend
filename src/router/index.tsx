@@ -11,8 +11,6 @@ import {
 } from '@pages/index';
 import ROUTER_PATH from '@constants/routerPath';
 
-export const BASENAME = '/wanted-pre-onboarding-frontend/';
-
 const router = createBrowserRouter(
   [
     {
@@ -43,7 +41,7 @@ const router = createBrowserRouter(
       errorElement: <ErrorPage />,
     },
   ],
-  { basename: BASENAME }
+  { basename: process.env.PUBLIC_URL }
 );
 
 export default router;
