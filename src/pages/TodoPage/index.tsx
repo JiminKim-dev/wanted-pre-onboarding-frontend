@@ -52,7 +52,7 @@ const TodoPage = () => {
 
   useEffect(() => {
     getTodosState(todoListData);
-  }, []);
+  }, [getTodosState, todoListData]);
 
   return (
     <div className="flex flex-col w-[100%] h-[100%]">
